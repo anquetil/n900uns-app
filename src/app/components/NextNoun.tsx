@@ -4,7 +4,7 @@ import Image from "next/image"
 import useGetNextNoun from "../hooks/useGetNextNoun"
 import { erc721ABI, useContractRead } from "wagmi"
 import useGetName from "../hooks/useGetName"
-import { NOUNS_TOKEN_GOERLI } from "../addresses"
+import { NOUNS_TOKEN_MAIN } from "../addresses"
 import { formatDate, mintDates } from "../utils"
 import { MintButton } from "./MintButton"
 
@@ -12,7 +12,7 @@ export default function NextNoun() {
    const { nextNoun, isLoading: nextNounLoading } = useGetNextNoun()
    const { data: ownerAddress, isLoading: ownerLoading } = useContractRead({
       abi: erc721ABI,
-      address: NOUNS_TOKEN_GOERLI,
+      address: NOUNS_TOKEN_MAIN,
       functionName: 'ownerOf',
       args: [nextNoun!],
       enabled: nextNoun != null
@@ -24,7 +24,7 @@ export default function NextNoun() {
    const { name, isLoading: ensLoading, guarantee: nameGuarantee} = useGetName(ownerAddress!, ownerAddress != null)
    if(nextNoun && nextNoun < 900n) {
       return(
-         <div className=" w-fit flex flex-col sm:flex-row gap-x-4">
+         <div className=" w-fit flex flex-col sm:flex-row sm:gap-x-4 gap-y-2">
             <Image
                src={`https://noun.pics/${nextNoun}.svg`}
                width={450}
